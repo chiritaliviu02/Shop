@@ -4,6 +4,7 @@
 package liviu.data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import static java.math.RoundingMode.HALF_UP;
@@ -13,7 +14,7 @@ import static liviu.data.Rating.*;
  * @author 40751
  *
  */
-public class Product {
+public abstract class Product {
 	private int id;
 	private  String name;
 	private BigDecimal price;
@@ -63,15 +64,21 @@ public class Product {
 		return rating;
 	}
 
-	public Product applyRating (Rating newRating)
+	public abstract Product  applyRating (Rating newRating);
+//	{
+//		return new Product(id, name, price, newRating);
+//	}
+	
+	public LocalDate getBestBefore()
 	{
-		return new Product(id, name, price, newRating);
+		return LocalDate.now();
 	}
+	
 
 	@Override
 	public String toString()
 	{
-		return id + ", " + name + ", " + price + ", " + getDiscount() + ", " + rating.getStars();
+		return id + ", " + name + ", " + price + ", " + getDiscount() + ", " + rating.getStars() + " " + getBestBefore();  
 	}
 	
 	@Override
