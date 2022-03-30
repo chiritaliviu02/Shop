@@ -21,6 +21,8 @@ public class Main
 		Product p6 = new Drink(104, "Chocolate", BigDecimal.valueOf(2.99), Rating.FIVE_STAR );
 		Product p7 = new Food(104, "Chocolate", BigDecimal.valueOf(2.99), Rating.FIVE_STAR, LocalDate.now().plusDays(2) );
 		System.out.println(p6.equals(p7));
+		
+		
 
 
 

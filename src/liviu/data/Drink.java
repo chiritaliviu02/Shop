@@ -4,6 +4,7 @@
 package liviu.data;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 
 /**
  * @author 40751
@@ -16,6 +17,15 @@ public class Drink extends Product {
 		super( id, name, price, rating );
 	}
 
+	@Override
+	public BigDecimal getDiscount() 
+	{
+
+		LocalTime now = LocalTime.now();
+		return (now.isAfter(LocalTime.of(17, 30)) &&
+				now.isBefore(LocalTime.of(18, 30))) ?
+						super.getDiscount() : BigDecimal.ZERO;
+	}
 
 
 }

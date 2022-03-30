@@ -4,6 +4,8 @@
 package liviu.data;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+
 import static java.math.RoundingMode.HALF_UP;
 import static liviu.data.Rating.*;
 
@@ -70,6 +72,32 @@ public class Product {
 	public String toString()
 	{
 		return id + ", " + name + ", " + price + ", " + getDiscount() + ", " + rating.getStars();
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int hash = 5;
+		hash = 23 * hash + this.id;
+		return hash;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+		{
+			
+			return true;
+		}
+		//if(obj != null && getClass() == obj.getClass() )
+		if(obj instanceof Product)
+		{
+			final Product other = (Product) obj;
+			return this.id == other.id && Objects.equals(this.name, other.name);
+		}
+		return false;
+		
 	}
 
 
