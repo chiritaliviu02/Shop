@@ -18,6 +18,7 @@ public class Product {
 	public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.1);
 	private Rating rating;
 
+
 	public Product () 
 	{
 		this(0, "no name", BigDecimal.ZERO);
