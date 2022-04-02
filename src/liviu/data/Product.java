@@ -14,7 +14,7 @@ import static liviu.data.Rating.*;
  * @author 40751
  *
  */
-public abstract class Product {
+public abstract class Product implements Rateable<Product>  {
 	private int id;
 	private  String name;
 	private BigDecimal price;
@@ -58,8 +58,8 @@ public abstract class Product {
 	{
 		return price.multiply(DISCOUNT_RATE).setScale(2, HALF_UP);
 	}
-
-	public Rating getRatig()
+	@Override
+	public Rating getRating()
 	{
 		return rating;
 	}
