@@ -6,7 +6,7 @@ package liviu.data;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
@@ -48,6 +48,12 @@ public class ProductManager {
 		return product;
 	} 
 	
+	public Product reviewProduct( int id, Rating rating, String comments)
+	{
+		return reviewProduct(findProduct(id), rating, comments);
+			
+	}
+	
 	public Product reviewProduct(Product product, Rating rating, String comments)
 	{
 		
@@ -71,6 +77,22 @@ public class ProductManager {
 		return product;
 		
 	}
+	
+	public Product findProduct(int id) {
+		Product result = null;
+		 for(Product product : products.keySet() )
+		 {
+			 if(product.getId() == id)
+			 {
+				 result = product;
+			 }
+		 }
+		 return result;
+	}
+	
+	public void printProductReport(int id) {
+		printProductReport(findProduct(id));
+	}
 	 
 	public void printProductReport(Product product)
 	{
@@ -82,6 +104,7 @@ public class ProductManager {
 		 product.getRating().getStars(),
 		 dateFormat.format(product.getBestBefore())));
 		 txt.append('\n');
+		 Collections.sort(reviews);
 		 
 		 for(Review review : reviews)
 		 {
