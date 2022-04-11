@@ -22,12 +22,12 @@ public abstract class Product implements Rateable<Product>  {
 	private Rating rating;
 
 
-//	 Product () 
-//	{
-//		this(0, "no name", BigDecimal.ZERO);
-//	}
+	//	 Product () 
+	//	{
+	//		this(0, "no name", BigDecimal.ZERO);
+	//	}
 
-	 Product (int id, String name, BigDecimal price, Rating rating) 
+	Product (int id, String name, BigDecimal price, Rating rating) 
 	{
 		this.id = id;
 		this.name = name;
@@ -35,7 +35,7 @@ public abstract class Product implements Rateable<Product>  {
 		this.rating = rating;
 	}
 
-	 Product (int id, String name, BigDecimal price)
+	Product (int id, String name, BigDecimal price)
 	{
 		this(id, name, price, NOT_RATED); 
 	}
@@ -65,22 +65,22 @@ public abstract class Product implements Rateable<Product>  {
 	}
 
 	public abstract Product  applyRating (Rating newRating);
-//	{
-//		return new Product(id, name, price, newRating);
-//	}
-	
+	//	{
+	//		return new Product(id, name, price, newRating);
+	//	}
+
 	public LocalDate getBestBefore()
 	{
 		return LocalDate.now();
 	}
-	
+
 
 	@Override
 	public String toString()
 	{
 		return id + ", " + name + ", " + price + ", " + getDiscount() + ", " + rating.getStars() + " " + getBestBefore();  
 	}
-	
+
 	@Override
 	public int hashCode()
 	{
@@ -88,13 +88,13 @@ public abstract class Product implements Rateable<Product>  {
 		hash = 23 * hash + this.id;
 		return hash;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj)
 	{
 		if(this == obj)
 		{
-			
+
 			return true;
 		}
 		//if(obj != null && getClass() == obj.getClass() )
@@ -104,7 +104,7 @@ public abstract class Product implements Rateable<Product>  {
 			return this.id == other.id; // && Objects.equals(this.name, other.name);
 		}
 		return false;
-		
+
 	}
 
 
