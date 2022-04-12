@@ -12,16 +12,23 @@ public class Main
 	public static void main(String[] args) 
 	{	
 		ProductManager pm = new ProductManager("ro-RO");
-		pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED );
+//		pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED );
+		pm.parseProduct("D,101,Ceai,1.99,0,2022-04-10");
 		pm.printProductReport(101);
 //		pm.reviewProduct(101 , Rating.FOUR_STAR,	"Nice hot cup of tea");
-		pm.parseReview("101,x, O cafea bun\u0103, hmm fierbinte...");
-//		pm.reviewProduct(101, Rating.TWO_STAR, "Rather weak tea");
-//		pm.reviewProduct(101, Rating.FOUR_STAR, "Fine tea");
-//		pm.reviewProduct(101, Rating.FOUR_STAR, "Good tea");
-//		pm.reviewProduct(101, Rating.FIVE_STAR, "Perfect tea");
-//		pm.reviewProduct(101, Rating.THREE_STAR, "Just add some lemon" );
+		pm.parseReview("101,4, O cafea bun\u0103, hmm fierbinte...");
+		pm.parseReview("101,2, Se pute mai bine");
+		pm.parseReview("101,4, A fost aproape perfect\u0103");
+		pm.parseReview("101,4,O sa mai beau cu placere");
+		pm.parseReview("101,5, Un ceai perfect");
+		pm.parseReview("101,3, Mai trebuia putin\u0103 lamie" );
 		pm.printProductReport(101);
+		
+		pm.parseProduct("F,103,Prajituric\u0103,3.99,0,2022-04-12");
+		pm.printProductReport(103);
+		
+		
+		
 		
 		//pm.changeLocale("ro-RO");
 //
