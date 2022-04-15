@@ -12,19 +12,11 @@ public class Main
 	public static void main(String[] args) 
 	{	
 		ProductManager pm = new ProductManager("ro-RO");
-//		pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED );
-		pm.parseProduct("D,101,Ceai,1.99,0,2022-04-10");
-		pm.printProductReport(101);
-//		pm.reviewProduct(101 , Rating.FOUR_STAR,	"Nice hot cup of tea");
-		pm.parseReview("101,4, O cafea bun\u0103, hmm fierbinte...");
-		pm.parseReview("101,2, Se pute mai bine");
-		pm.parseReview("101,4, A fost aproape perfect\u0103");
-		pm.parseReview("101,4,O sa mai beau cu placere");
-		pm.parseReview("101,5, Un ceai perfect");
-		pm.parseReview("101,3, Mai trebuia putin\u0103 lamie" );
-		pm.printProductReport(101);
 		
-		pm.parseProduct("F,103,Prajituric\u0103,3.99,0,2022-04-12");
+		
+		
+		pm.printProductReport(104);
+		pm.printProductReport(101);
 		pm.printProductReport(103);
 		
 		
@@ -61,7 +53,7 @@ public class Main
 //		pm.reviewProduct(106, Rating.ONE_STAR, "I don't get it");
 //		pm.printProductReport(106);
 //
-//		pm.printProducts(p->p.getPrice().floatValue() < 2, (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
+		pm.printProducts(p->p.getPrice().floatValue() < 2, (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
 //
 //		pm.getDiscounts().forEach((rating, discount) -> System.out.println(rating + "\t" + discount)) ;
 		//		pm.printProducts((p1, p2) -> p2.getPrice().compareTo(p1.getPrice())); 
