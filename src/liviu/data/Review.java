@@ -3,11 +3,13 @@
  */
 package liviu.data;
 
+import java.io.Serializable;
+
 /**
  * @author 40751
  *
  */
-public class Review implements Comparable<Review> {
+public class Review implements Comparable<Review>, Serializable {
 	private Rating rating;
 	private String comments;
 

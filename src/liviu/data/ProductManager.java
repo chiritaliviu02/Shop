@@ -3,7 +3,10 @@
  */
 package liviu.data;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -15,6 +18,7 @@ import java.nio.file.StandardOpenOption;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -138,6 +142,10 @@ public class ProductManager {
 
 	public void printProductReport(int id) {
 		try {
+			if(Files.notExists(reportsFolder))
+			{
+				Files.createDirectory(reportsFolder);
+			}
 			printProductReport(findProduct(id));
 		} catch (ProductManagerException ex) {
 			logger.log(Level.INFO, ex.getMessage());
@@ -154,12 +162,15 @@ public class ProductManager {
 		Path productFile = reportsFolder.resolve(
 				MessageFormat.format(
 						config.getString("report.file"), product.getId()));
+		System.out.println(productFile.toString());
+		
+		
+		
 		try (PrintWriter out = new PrintWriter(
 								new OutputStreamWriter(
-										Files.newOutputStream(
-												productFile, 
-												StandardOpenOption.CREATE),
+										new FileOutputStream(productFile.toString()),
 										"UTF-8") )){
+			
 		out.append(formatter.formatProduct(product) + System.lineSeparator());
 		
 
@@ -187,6 +198,53 @@ public class ProductManager {
 		.forEach(p -> txt.append(formatter.formatProduct(p) + '\n'));
 		System.out.println(txt);
 	}
+	
+	private void dumpData() 
+	{
+		try 
+		{
+			if(Files.notExists(tempFolder))
+			{
+				Files.createDirectory(tempFolder);
+			}
+			
+			Path tempFile = tempFolder.resolve(MessageFormat.format(config.getString("temp.file"), Instant.now().toString().replaceAll(":", "") ));
+			System.out.println(tempFile);
+			
+			try(ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(tempFile, StandardOpenOption.CREATE)))
+			{
+				
+				out.writeObject(products);
+				products = new HashMap<>();
+			}
+				 		  
+		}
+		catch(IOException ex)
+		{
+			logger.log(Level.SEVERE, "Error dumping data: " + ex.getMessage(), ex);
+		}
+	}
+	@SuppressWarnings("unchecked")
+	private void restoreData() 
+	{
+		try 
+		{
+			Path tempFile = Files.list(tempFolder).filter(path -> path.getFileName()
+								.toString().endsWith("temp")).findFirst().orElseThrow();
+			
+			try(ObjectInputStream in = new ObjectInputStream(Files.newInputStream
+					(tempFile, StandardOpenOption.DELETE_ON_CLOSE)))
+			{
+				products = (HashMap<Product, List<Review>>)in.readObject();
+			}
+		}
+		catch(Exception ex)
+		{
+			logger.log(Level.SEVERE, "Error restoring data: " + ex.getMessage(), ex);
+		}
+		
+	}
+	
 	
 	private void loadAllData() 
 	{
@@ -299,12 +357,14 @@ public class ProductManager {
 		private ResourceBundle resources;
 		private DateTimeFormatter dateFormat;
 		private NumberFormat moneyFormat;
+		private DateTimeFormatter instantFormat;
 
 		private ResourceFormatter(Locale locale)
 		{
 			resources = ResourceBundle.getBundle("liviu.data.resources", locale);
 			dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).localizedBy(locale);
 			moneyFormat = NumberFormat.getCurrencyInstance(locale);
+			instantFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).localizedBy(locale);
 
 		}
 		private String formatProduct(Product product) 
@@ -320,6 +380,11 @@ public class ProductManager {
 		{
 			return MessageFormat.format(resources.getString("review")
 					,review.getRating().getStars(),review.getComments());
+		}
+		
+		private String formatInstant(Instant instant)
+		{
+			return dateFormat.format(instant);
 		}
 
 		private String getText(String key)

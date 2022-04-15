@@ -3,6 +3,7 @@
  */
 package liviu.data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import static liviu.data.Rating.*;
  * @author 40751
  *
  */
-public abstract class Product implements Rateable<Product>  {
+public abstract class Product implements Rateable<Product>, Serializable  {
 	private int id;
 	private  String name;
 	private BigDecimal price;
