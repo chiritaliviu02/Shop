@@ -47,7 +47,7 @@ public class ProductManager {
 	//	private Review[] reviews = new Review[5];
 
 	private Map<Product, List<Review>> products = new HashMap<>();
-	private ResourceFormatter formatter;
+//	private ResourceFormatter formatter;
 	private ResourceBundle config = ResourceBundle.getBundle("liviu.data.config");
 	private MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
 	private MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
@@ -59,27 +59,31 @@ public class ProductManager {
 	private static Map<String, ResourceFormatter> formatters =
 			Map.of("en-GB", new ResourceFormatter(Locale.UK),
 					"en-US", new ResourceFormatter(Locale.US),
-					"fr-FR", new ResourceFormatter(Locale.FRANCE),
+					"fr-FR", new ResourceFormatter(Locale.FRANCE), 
 					"ro-RO", new ResourceFormatter(new Locale("ro", "RO")),
 					"zh-CN", new ResourceFormatter(Locale.CHINA));
 	private static final Logger logger = Logger.getLogger(ProductManager.class.getName());
+	private static final ProductManager pm = new ProductManager();
 
-
-	public ProductManager(Locale locale)
+	public static ProductManager getInstance() 
 	{
-		this(locale.toLanguageTag());
+		return pm;
 	}
+//	public ProductManager(Locale locale)
+//	{
+//		this(locale.toLanguageTag());
+//	}
 
-	public ProductManager(String languageTag)
+	private ProductManager()
 	{
-		changeLocale(languageTag);
+//		changeLocale(languageTag);
 		loadAllData();
 	}
 
-	public void changeLocale(String languageTag)
-	{
-		formatter = formatters.getOrDefault(languageTag, formatters.get("en-GB"));
-	}
+//	public void changeLocale(String languageTag)
+//	{
+//		formatter = formatters.getOrDefault(languageTag, formatters.get("en-GB"));
+//	}
 
 	public static Set<String>getSupportedLocales()
 	{
@@ -140,13 +144,13 @@ public class ProductManager {
 				.orElseThrow(() -> new ProductManagerException("Product with id " + id + " not found"));
 	}
 
-	public void printProductReport(int id) {
+	public void printProductReport(int id, String languageTag) {
 		try {
 			if(Files.notExists(reportsFolder))
 			{
 				Files.createDirectory(reportsFolder);
 			}
-			printProductReport(findProduct(id));
+			printProductReport(findProduct(id), languageTag );
 		} catch (ProductManagerException ex) {
 			logger.log(Level.INFO, ex.getMessage());
 		} catch (IOException ex) {
@@ -155,8 +159,9 @@ public class ProductManager {
 		}
 	}
 
-	public void printProductReport(Product product) throws  IOException
+	public void printProductReport(Product product, String languageTag) throws  IOException
 	{
+		ResourceFormatter formatter = formatters.getOrDefault(languageTag, formatters.get("ro-RO"));
 		List<Review> reviews = products.get(product);
 		Collections.sort(reviews);
 		Path productFile = reportsFolder.resolve(
@@ -187,9 +192,9 @@ public class ProductManager {
 		}
 	}
 
-	public void printProducts( Predicate< Product> filter,Comparator <Product> sorter)
+	public void printProducts( Predicate< Product> filter,Comparator <Product> sorter, String languageTag )
 	{
-
+		ResourceFormatter formatter = formatters.getOrDefault(languageTag, formatters.get("ro-RO"));
 		StringBuilder txt = new StringBuilder();
 		products.keySet()
 		.stream()
@@ -335,8 +340,9 @@ public class ProductManager {
 		return product;
 	}
 
-	public Map<String, String> getDiscounts()
+	public Map<String, String> getDiscounts(String languageTag)
 	{
+		ResourceFormatter formatter = formatters.getOrDefault(languageTag, formatters.get("ro-RO"));
 		return products.keySet()
 				.stream()
 				.collect(
