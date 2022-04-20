@@ -11,26 +11,10 @@ public class Main
 
 	public static void main(String[] args) 
 	{	
-		ProductManager pm = new ProductManager("ro-RO");
-////		pm.printProductReport(101);
-//		pm.createProduct(164, "Kombucha", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
-//		pm.reviewProduct(164, Rating.TWO_STAR, "Arata ca un ceai, este?");
-//		pm.reviewProduct(164, Rating.FOUR_STAR, "Bun ceai");
-//		pm.reviewProduct(164, Rating.FOUR_STAR, "Acesta nu este ceai");
-//		pm.reviewProduct(164, Rating.FIVE_STAR, "Perfect!");
-////		pm.printProductReport(164);
-//		pm.dumpData();
-//		pm.restoreData();
-//		pm.printProductReport(105);
-//		pm.printProductReport(164);
-//		pm.printProducts(p->p.getPrice().floatValue() < 2, (p1, p2) -> p2.getRating()
-//				.ordinal() - p1.getRating().ordinal());
-//		pm.getDiscounts().forEach(
-//				(rating, discount) -> System.out.println(rating + "\t" + discount));
-//		
-//
-// 
-
+		ProductManager pm =ProductManager.getInstance();
+		pm.printProductReport(101, "en-GB");
+		pm.printProductReport(103, "ro-RO");
+		
 	}
 
 }
